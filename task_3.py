@@ -14,16 +14,31 @@ except ImportError:
 # Базові налаштування
 colorama.init(autoreset=True)
 
-def recursive_tree_display(dir_path: Path, prefix: str = ""):
-    pointers = ["┣━ "] * (5) + ["┗━ "]
-    print(pointers)   
+# def recursive_tree_display(dir_path: Path, prefix: str = ""):
+#     pointers = ["┣━ "] * (5) + ["┗━ "]
+#     print(pointers)
 
-def GEWMINI_recursive_tree_display(dir_path: Path, prefix: str = ""):
+
+def get_name_for_sorting(path_item):
+    return path_item.name.lower()
+
+
+def recursive_tree_display(dir_path: Path, prefix: str = ""):
 
     try:
         items = sorted(
             list(dir_path.iterdir()), key=lambda x: (x.is_file(), x.name.lower())
         )
+        # folders = []
+        # files = []
+        # for item in dir_path.iterdir():
+        #     if item.is_file():
+        #         files.append(item)
+        # else:
+        #     folders.append(item)
+        # folders.sort(key=get_name_for_sorting)
+        # files.sort(key=get_name_for_sorting)
+        # items = folders + files
     except PermissionError:
         print(f"{prefix}{colorama.Fore.RED}Відмовлено в доступі.")
         return
