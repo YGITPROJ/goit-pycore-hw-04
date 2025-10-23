@@ -14,27 +14,27 @@ except ImportError:
 # Базові налаштування
 colorama.init(autoreset=True)
 
-# def recursive_tree_display(dir_path: Path, prefix: str = ""):
-#     pointers = ["┣━ "] * (5) + ["┗━ "]
-#     print(pointers)
 
-
+# Приведення назви до нижнього регістру
 def get_name_for_sorting(path_item):
     return path_item.name.lower()
 
-
+# ┣ ━ ┗ ┃ декор
+# Рекурсивна функція
 def recursive_tree_display(dir_path: Path, prefix: str = ""):
 
     try:
-        items = sorted(
-            list(dir_path.iterdir()), key=lambda x: (x.is_file(), x.name.lower())
-        )
+        items = items = list(dir_path.iterdir())
     except PermissionError:
         print(f"{prefix}{colorama.Fore.RED}Відмовлено в доступі.")
         return
     except FileNotFoundError:
         print(f"{prefix}{colorama.Fore.RED}Помилка: Директорію не знайдено.")
         return
+
+    # Сортування за іменем
+    sorted_items = sorted(items, key=get_name_for_sorting)
+
     pointers = ["┣━ "] * (len(items) - 1) + ["┗━ "]
 
     for pointer, item in zip(pointers, items):
